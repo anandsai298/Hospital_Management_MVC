@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Doctor_MVC_Model\DoctorMVCModel.csproj" />
+    <ProjectReference Include="..\Doctor_MVC_Repository\DoctorMVCRepository.csproj" />
+  </ItemGroup>
+
+</Project>
