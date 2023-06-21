@@ -49,21 +49,37 @@ namespace DoctorMVCRepository.Repository
                 connection.Close();
             }
         }
-        public UserLoginModel UserLogin(UserLoginModel logmodel)
+        public UserRegistrationModel UserLogin(UserLoginModel logmodel)
         {
             SqlConnection connection = new SqlConnection(connectionString);
             try
             {
                 using (connection)
                 {
-                    SqlCommand command = new SqlCommand("UserLoginSP", connection);
-                    command.CommandType = CommandType.StoredProcedure;
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("UserLoginSP", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+
                     command.Parameters.AddWithValue("@EmailID", logmodel.EmailID);
                     command.Parameters.AddWithValue("@Password", logmodel.Password);
-                    connection.Open();
-                    var res=command.ExecuteNonQuery();
-                    
-                    return logmodel;
+                    UserRegistrationModel registration = new UserRegistrationModel();
+                    SqlDataReader reader= command.ExecuteReader();
+                    //refactoring of login 
+                    if(reader.Read())
+                    {
+                        registration.UserID = reader.GetInt32(0);
+                        registration.UserName = reader.GetString(1);
+                        registration.EmailID = reader.GetString(2);
+                        registration.Password = reader.GetString(3);
+                        registration.PhoneNumber = reader.GetInt64(4);
+                        registration.CreatedAt = reader.GetDateTime(5);
+                        registration.UpdatedAt = reader.GetDateTime(6);
+                        registration.Trash = reader.GetBoolean(7);
+                        registration.RoleID = reader.GetInt32(8);   
+                    }
+                    return registration;
                 }
             }
             catch (Exception ex)
@@ -73,6 +89,47 @@ namespace DoctorMVCRepository.Repository
             finally
             {
                 connection.Close ();
+            }
+        }
+        public List<UserRegistrationModel> GetAllUserData()
+        {
+            List<UserRegistrationModel>regmodel=new List<UserRegistrationModel> ();
+            SqlConnection connection=new SqlConnection (connectionString);
+            try
+            {
+                using(connection)
+                {
+                    SqlCommand command = new SqlCommand("GetAllRecords", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if(reader.HasRows)
+                    {
+                        while(reader.Read())
+                        {
+                            UserRegistrationModel registration = new UserRegistrationModel();
+                            registration.UserID = reader.GetInt32(0);
+                            registration.UserName = reader.GetString(1);
+                            registration.EmailID = reader.GetString(2);
+                            registration.Password = reader.GetString(3);
+                            registration.PhoneNumber = reader.GetInt64(4);
+                            registration.CreatedAt = reader.GetDateTime(5);
+                            registration.UpdatedAt = reader.GetDateTime(6);
+                            registration.Trash = reader["Trash"] == DBNull.Value ? default : reader.GetBoolean("Trash");
+                            registration.RoleID = reader.GetInt32(8);
+                            regmodel.Add(registration);
+                        }
+                    }
+                }
+                return regmodel;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

@@ -1,0 +1,18 @@
+﻿body {
+    text-align:center;
+}
+row {
+    text-align: center;
+    border: 10px;
+    border-radius: 25px;
+}
+dcol-md-4 {
+    text-align: center;
+    border: 10px;
+    border-radius: 25px;
+}
+form-group {
+    text-align: center;
+    border: 10px;
+    border-radius: 25px;
+}

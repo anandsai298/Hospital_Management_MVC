@@ -26,13 +26,24 @@ namespace DoctorMVCBusiness.Business
                 throw new Exception(ex.Message);
             }
         }
-        public UserLoginModel UserLogin(UserLoginModel logmodel)
+        public UserRegistrationModel UserLogin(UserLoginModel logmodel)
         {
             try
             {
                 return iUserRep.UserLogin(logmodel);
             }
             catch(Exception ex )
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<UserRegistrationModel> GetAllUserData()
+        {
+            try
+            {
+                return iUserRep.GetAllUserData();
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
