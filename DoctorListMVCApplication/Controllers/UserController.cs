@@ -40,13 +40,15 @@ namespace DoctorListMVCApplication.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind] UserLoginModel logmodel, string emailID, string password)
+        public IActionResult Login([Bind] UserLoginModel logmodel)
         {
             if (ModelState.IsValid)
             {
-                iuserbus.UserLogin(logmodel, emailID, password);
-                return RedirectToAction("Index", "Home");
+                var output= iuserbus.UserLogin(logmodel);
+                if(output!=null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View(logmodel);
         }

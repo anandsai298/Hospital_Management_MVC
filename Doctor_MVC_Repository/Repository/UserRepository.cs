@@ -49,7 +49,7 @@ namespace DoctorMVCRepository.Repository
                 connection.Close();
             }
         }
-        public UserRegistrationModel UserLogin(UserLoginModel logmodel,string emailID,string password)
+        public UserLoginModel UserLogin(UserLoginModel logmodel)
         {
             SqlConnection connection = new SqlConnection(connectionString);
             try
@@ -57,28 +57,14 @@ namespace DoctorMVCRepository.Repository
                 using (connection)
                 {
                     SqlCommand command = new SqlCommand("UserLoginSP", connection);
-                    CommandType commandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@EmailID", emailID);
-                    command.Parameters.AddWithValue("@Password", password);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@EmailID", logmodel.EmailID);
+                    command.Parameters.AddWithValue("@Password", logmodel.Password);
                     connection.Open();
-                    command.ExecuteNonQuery();
-                    SqlDataReader reader= command.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        UserRegistrationModel registration = new UserRegistrationModel();
-                        registration.UserID=reader.GetInt32(0);
-                        registration.UserName=reader.GetString(1);
-                        registration.EmailID = reader.GetString(2);
-                        registration.Password = reader.GetString(3);
-                        registration.PhoneNumber = reader.GetInt64(4);
-                        registration.CreatedAt = reader.GetDateTime(5);
-                        registration.UpdatedAt = reader.GetDateTime(6);
-                        registration.Trash = reader.GetBoolean(7);
-                        registration.RoleID = reader.GetInt32(8);
-                        return registration;
-                    }
+                    var res=command.ExecuteNonQuery();
+                    
+                    return logmodel;
                 }
-                return null ;
             }
             catch (Exception ex)
             {

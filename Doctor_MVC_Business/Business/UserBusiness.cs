@@ -26,11 +26,11 @@ namespace DoctorMVCBusiness.Business
                 throw new Exception(ex.Message);
             }
         }
-        public UserRegistrationModel UserLogin(UserLoginModel logmodel, string emailID, string password)
+        public UserLoginModel UserLogin(UserLoginModel logmodel)
         {
             try
             {
-                return iUserRep.UserLogin(logmodel,  emailID,  password);
+                return iUserRep.UserLogin(logmodel);
             }
             catch(Exception ex )
             {

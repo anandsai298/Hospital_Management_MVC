@@ -9,6 +9,6 @@ namespace DoctorMVCRepository.Interface
     public interface IUserRepository
     {
         public UserRegistrationModel RegisterUser(UserRegistrationModel registration);
-        public UserRegistrationModel UserLogin(UserLoginModel logmodel, string emailID, string password);
+        public UserLoginModel UserLogin(UserLoginModel logmodel);
     }
 }
