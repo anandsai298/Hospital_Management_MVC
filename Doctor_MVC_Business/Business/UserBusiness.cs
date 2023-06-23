@@ -37,16 +37,5 @@ namespace DoctorMVCBusiness.Business
                 throw new Exception(ex.Message);
             }
         }
-        public List<UserRegistrationModel> GetAllUserData()
-        {
-            try
-            {
-                return iUserRep.GetAllUserData();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
     }
 }

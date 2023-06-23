@@ -9,7 +9,5 @@ namespace DoctorMVCRepository.Interface
     public interface IUserRepository
     {
         public UserRegistrationModel RegisterUser(UserRegistrationModel registration);
-        public UserRegistrationModel UserLogin(UserLoginModel logmodel);
-        public List<UserRegistrationModel> GetAllUserData();
-    }
+        public UserRegistrationModel UserLogin(UserLoginModel logmodel);    }
 }

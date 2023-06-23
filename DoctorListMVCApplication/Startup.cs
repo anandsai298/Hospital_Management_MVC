@@ -30,6 +30,12 @@ namespace DoctorListMVCApplication
             services.AddControllersWithViews();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserBusiness, UserBusiness>();
+            services.AddTransient<IDoctorRepository, DoctorRepository>();
+            services.AddTransient<IDoctorBusiness, DoctorBusiness>();
+            services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IPatientBusiness, PatientBusiness>();
+            services.AddTransient<IAdminRepository, AdminRepository>();
+            services.AddTransient<IAdminBusiness, AdminBusiness>();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(120);
@@ -63,7 +69,7 @@ namespace DoctorListMVCApplication
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=User}/{action=Login}/{id?}");
             });
         }
     }

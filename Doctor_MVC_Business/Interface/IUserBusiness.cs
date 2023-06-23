@@ -10,7 +10,6 @@ namespace DoctorMVCBusiness.Interface
     {
         public UserRegistrationModel RegisterUser(UserRegistrationModel registration);
         public UserRegistrationModel UserLogin(UserLoginModel logmodel);
-        public List<UserRegistrationModel> GetAllUserData();
     }
 }
 
