@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+@*@<table class="table">
     <thead>
         <tr>
             <th>
@@ -45,9 +45,29 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody>*@
 @foreach (var item in Model) {
-        <tr>
+    <div>
+        <div class="card">
+            <a href="@Url.Action("GetAllDoctorDetails_PatientID","Patient",new {PatientID=item.PatientID})">
+                <h5>
+                    Click to view PatientDetails
+                </h5></a>
+                <div class="card-header">
+                    <h3>
+                        ProfilePic :  @item.ProfilePic
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p> PatientID : @item.PatientID</p>
+                    <p> Age : @item.Age</p>
+                    <p> Gender : @item.Gender</p>
+                    <p> BloodGroup : @item.BloodGroup</p>
+                    <p> MedicalHistory : @item.MedicalHistory</p>
+                </div>
+        </div>
+    </div>
+        @*@<tr>
             <td>
                 @Html.DisplayFor(modelItem => item.PatientID)
             </td>
@@ -83,7 +103,7 @@
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
-        </tr>
+        </tr>*@
 }
-    </tbody>
-</table>
+    @*@</tbody>
+</table>*@

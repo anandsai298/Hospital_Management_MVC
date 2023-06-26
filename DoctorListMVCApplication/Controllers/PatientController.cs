@@ -39,11 +39,16 @@ namespace DoctorListMVCApplication.Controllers
         [HttpGet]
         public IActionResult GetAllPatientData()
         {
-            List<PatientModel> list = new List<PatientModel>();
-            list = ipatbus.GetAllPatientDetails().ToList();
             int roleid = (int)HttpContext.Session.GetInt32("RoleID");
             if (roleid == 3)
             {
+                List<PatientModel> list = new List<PatientModel>();
+                list = ipatbus.GetAllPatientDetails().ToList();
+                foreach (PatientModel item in list)
+                {
+                    int PatientID = item.PatientID;
+                    HttpContext.Session.SetInt32("PatientID", PatientID);
+                }
                 return View(list);
             }
             return RedirectToAction("Login", "User");
@@ -59,5 +64,17 @@ namespace DoctorListMVCApplication.Controllers
             }
             return RedirectToAction("Login", "User");
         }
+        [HttpGet]
+        public IActionResult GetAllDoctorDetails_PatientID(int PatientID)
+        {
+            if (ModelState.IsValid)
+            {
+                PatientID = (int)HttpContext.Session.GetInt32("PatientID");
+                var op = ipatbus.GetAllDoctorDetails_PatientID(PatientID);
+                return View(op);
+            }
+            return RedirectToAction("Login", "User");
+        }
+
     }
 }

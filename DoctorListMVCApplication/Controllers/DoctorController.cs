@@ -43,11 +43,16 @@ namespace DoctorListMVCApplication.Controllers
         [HttpGet]
         public IActionResult GetAllDoctorData()
         {
-            List<DoctorModel>list=new List<DoctorModel>();
-            list = idocbus.GetAllDoctorDetails().ToList();
             int roleid = (int)HttpContext.Session.GetInt32("RoleID");
-            if(roleid==2)
+            if (roleid == 3)
             {
+                List<DoctorModel> list = new List<DoctorModel>();
+                list = idocbus.GetAllDoctorDetails().ToList();
+                foreach(DoctorModel item in list)
+                {
+                    int DoctotID = item.DoctorID;
+                    HttpContext.Session.SetInt32("DoctorID", DoctotID);
+                }
                 return View(list);
             }
             return RedirectToAction("Login", "User");
@@ -59,16 +64,20 @@ namespace DoctorListMVCApplication.Controllers
             {
                 int UserID = (int)HttpContext.Session.GetInt32("UserID");
                 var op = idocbus.GetAllDoctorDetails_UserID(UserID);
+                if(op!=null)
+                {
+                    HttpContext.Session.SetInt32("DoctorID", op.DoctorID);
+                }
                 return View(op);
             }
             return RedirectToAction("Login", "User");
         }
         [HttpGet]
-        public IActionResult GetAllDoctorDetails_DoctorID()
+        public IActionResult GetAllDoctorDetails_DoctorID(int DoctorID)
         {
             if (ModelState.IsValid)
             {
-                int DoctorID = (int)HttpContext.Session.GetInt32("DoctorID");
+                DoctorID = (int)HttpContext.Session.GetInt32("DoctorID");
                 var op = idocbus.GetAllDoctorDetails_DoctorID(DoctorID);
                 return View(op);
             }

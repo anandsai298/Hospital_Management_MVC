@@ -52,7 +52,15 @@ namespace DoctorListMVCApplication.Controllers
                 {
                     HttpContext.Session.SetInt32("UserID", output.UserID);
                     HttpContext.Session.SetInt32("RoleID", output.RoleID);
-
+                    if(output.RoleID==3)
+                    {
+                        return RedirectToAction("GetAllPatientDetails_UserID", "Patient");
+                    }
+                    if(output.RoleID==2)
+                    {
+                        return RedirectToAction("GetAllDoctorDetails_UserID", "Doctor");
+                    }
+                    
                     return RedirectToAction("Index", "Home");
                 }
             }

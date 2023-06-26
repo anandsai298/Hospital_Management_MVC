@@ -135,5 +135,47 @@ namespace DoctorMVCRepository.Repository
                 connection.Close();
             }
         }
+        public PatientModel GetAllDoctorDetails_PatientID(int PatientID)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("GetDoctorDetailsPatIDSP", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("PatientID", PatientID);
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            PatientModel patientModel = new PatientModel();
+                            patientModel.PatientID = reader.GetInt32(0);
+                            patientModel.UserID = reader.GetInt32(1);
+                            patientModel.ProfilePic = reader.GetString(2);
+                            patientModel.Gender = reader.GetString(3);
+                            patientModel.Age = reader.GetInt32(4);
+                            patientModel.BloodGroup = reader.GetString(5);
+                            patientModel.MedicalHistory = reader.GetString(6);
+                            patientModel.CreatedID = reader.GetDateTime(7);
+                            patientModel.UpdatedAt = reader.GetDateTime(8);
+                            patientModel.IsTrash = reader["IsTrash"] == DBNull.Value ? default : reader.GetBoolean("IsTrash");
+                            return patientModel;
+                        }
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

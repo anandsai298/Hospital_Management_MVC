@@ -10,5 +10,6 @@ namespace DoctorMVCRepository.Interface
         public PatientModel PatientDetails(PatientModel patmodel);
         public List<PatientModel> GetAllPatientDetails();
         public PatientModel GetAllPatientDetails_UserID(int userID);
+        public PatientModel GetAllDoctorDetails_PatientID(int PatientID);
     }
 }

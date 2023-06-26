@@ -47,5 +47,16 @@ namespace DoctorMVCBusiness.Business
                 throw new Exception(ex.Message);
             }
         }
+        public PatientModel GetAllDoctorDetails_PatientID(int PatientID)
+        {
+            try
+            {
+                return ipatRep.GetAllDoctorDetails_PatientID(PatientID);
+            }
+            catch(Exception Ex)
+            {
+                throw new Exception(Ex.Message);
+            }
+        }
     }
 }
